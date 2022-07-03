@@ -1,6 +1,6 @@
 const express = require('express');
 const authMiddleware = require('../middlewares/auth.middleware');
-const Task = require('../models/task');
+const db = require('../models/index');
 
 const router = express.Router();
 
@@ -11,13 +11,13 @@ router.get('/task', (req, res) => {
 });
 
 router.get('/tasks', async (req, res) => {
-  return Task.findAll({ where: { userId: req.userId } })
+  return db.task.findAll({ where: { userId: req.userId } })
     .then((tasks) => res.status(200).send(tasks))
     .catch((error) => res.status(400).send(error));
 });
 
 router.get('/tasks/:id', async (req, res) => {
-  return Task.findOne({ where: { id: req.params.id, userId: req.userId } })
+  return db.task.findOne({ where: { id: req.params.id, userId: req.userId } })
     .then((task) => {
       if (!task) {
         return res.status(404).send({
@@ -31,7 +31,7 @@ router.get('/tasks/:id', async (req, res) => {
 });
 
 router.post('/tasks', async (req, res) => {
-  return Task.create({
+  return db.task.create({
     name: req.body.name,
     description: req.body.description,
     start_date: req.body.start_date,
@@ -44,7 +44,7 @@ router.post('/tasks', async (req, res) => {
 });
 
 router.put('/tasks', async (req, res) => {
-  return Task.findOne({ where: { id: req.body.id, userId: req.userId } })
+  return db.task.findOne({ where: { id: req.body.id, userId: req.userId } })
     .then((task) => {
       if (!task) {
         return res.status(404).send({
@@ -67,7 +67,7 @@ router.put('/tasks', async (req, res) => {
 });
 
 router.delete('/tasks', async (req, res) => {
-  return Task.findOne({ where: { id: req.body.id, userId: req.userId } })
+  return db.task.findOne({ where: { id: req.body.id, userId: req.userId } })
     .then((task) => {
       if (!task) {
         return res.status(400).send({

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const secret_hash = require('../config/auth');
-const User = require('../models/user');
+const db = require('../models/index');
 
 const router = express.Router();
 
@@ -20,11 +20,11 @@ router.post('/register', async (req, res) => {
     return res.status(400).send({ error: 'Invalid login or password' });
 
   }
-  if (await User.findOne({ where: { login: login } })) {
+  if (await db.user.findOne({ where: { login: login } })) {
     return res.status(400).send({ error: 'Login already used' });
   }
 
-  return User.create({
+  return db.user.create({
     login: login,
     password: password,
   })
@@ -40,7 +40,7 @@ router.post('/register', async (req, res) => {
 router.post('/authenticate', async (req, res) => {
   const login = req.body.login;
   const password = req.body.password;
-  const user = await User.findOne({ where: { login: login } })
+  const user = await db.user.findOne({ where: { login: login } })
   if (!user) {
     return res.status(400).send({ error: 'Incorrect login credentials' });
   }

@@ -1,6 +1,8 @@
+// create tables
 (async () => {
-  const database = require('../database/db');
-  const User = require('../models/user');
-  const Task = require('../models/task');
-  await database.sync();
+  const db = require('../models/index');
+  const User = require('../models/user')(db.sequelize, db.Sequelize.DataTypes);
+  //const Task = require('../models/task')(db.sequelize, db.Sequelize.DataTypes);
+
+  await db.sequelize.sync();
 })();
