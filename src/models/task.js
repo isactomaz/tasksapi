@@ -27,6 +27,12 @@ const Task = database.define('task', {
     type: DataTypes.STRING(15),
     allowNull: false,
   },
-});
+
+},
+  {
+    freezeTableName: true,
+    tableName: 'tasks',
+  }
+);
 
 module.exports = Task;

@@ -18,14 +18,18 @@ const User = database.define('user', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-}, {
-  hooks: {
-    beforeCreate: async (user) => {
-      const hashedPassword = await bcrypt.hash(user.password, 7);
-      user.password = hashedPassword;
+},
+  {
+    freezeTableName: true,
+    tableName: 'users',
+    hooks: {
+      beforeCreate: async (user) => {
+        const hashedPassword = await bcrypt.hash(user.password, 7);
+        user.password = hashedPassword;
+      },
     },
-  },
-});
+  }
+);
 
 User.hasMany(Task);
 
