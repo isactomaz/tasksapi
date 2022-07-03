@@ -17,7 +17,7 @@ router.get('/tasks', async (req, res) => {
 });
 
 router.get('/tasks/:id', async (req, res) => {
-  return Task.findByPk(req.body.id)
+  return Task.findByPk(req.params.id)
     .then((task) => {
       if (!task) {
         return res.status(404).send({
