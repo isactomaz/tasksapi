@@ -8,9 +8,6 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 
 require('./controllers/auth.controller')(app);
-
-app.get('/', (req, res) => {
-  res.json({ 'msg': 'hello' })
-});
+require('./controllers/task.controller')(app);
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
