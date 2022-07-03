@@ -1,0 +1,32 @@
+# Tasks API
+
+## Running
+
+### Setup
+
+- Clone the repository
+
+- Create a copy of `.env.example`:
+  `cp .env.example .env`
+
+- Install the additional packages required:
+  npm i
+
+- Create databases
+
+- Create tables
+  `node src/config/db.js`
+
+- Migrations
+  `npx sequelize db:migrate`
+
+- Run
+  `node src/index.js`
+
+### Tools
+
+- Node 16.15.1
+- Express
+- Jsonwebtoken
+- MySQL 8.0.29
+- PostgreSQL 14.4 (development)
