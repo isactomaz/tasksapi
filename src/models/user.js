@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const database = require('../database/db');
+const Task = require('../models/task');
 
 const User = database.define('user', {
   id: {
@@ -25,5 +26,7 @@ const User = database.define('user', {
     },
   },
 });
+
+User.hasMany(Task);
 
 module.exports = User;

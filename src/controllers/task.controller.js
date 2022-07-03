@@ -11,13 +11,13 @@ router.get('/task', (req, res) => {
 });
 
 router.get('/tasks', async (req, res) => {
-  return Task.findAll()
+  return Task.findAll({ where: { userId: req.userId } })
     .then((tasks) => res.status(200).send(tasks))
     .catch((error) => res.status(400).send(error));
 });
 
 router.get('/tasks/:id', async (req, res) => {
-  return Task.findByPk(req.params.id)
+  return Task.findOne({ where: { id: req.params.id, userId: req.userId } })
     .then((task) => {
       if (!task) {
         return res.status(404).send({
@@ -37,13 +37,14 @@ router.post('/tasks', async (req, res) => {
     start_date: req.body.start_date,
     end_date: req.body.end_date,
     status: req.body.start_date,
+    userId: req.userId,
   })
     .then((task) => res.status(201).send(task))
     .catch((error) => res.status(400).send(error));
 });
 
 router.put('/tasks', async (req, res) => {
-  return Task.findByPk(req.body.id)
+  return Task.findOne({ where: { id: req.body.id, userId: req.userId } })
     .then((task) => {
       if (!task) {
         return res.status(404).send({
@@ -66,7 +67,7 @@ router.put('/tasks', async (req, res) => {
 });
 
 router.delete('/tasks', async (req, res) => {
-  return Task.findByPk(req.body.id)
+  return Task.findOne({ where: { id: req.body.id, userId: req.userId } })
     .then((task) => {
       if (!task) {
         return res.status(400).send({
